@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <io.seniorzhai.circlegroupview.CircleGroupView
+        android:id="@+id/view1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="16dp"
+        app:place_holder="@drawable/place_holder" />
+
+    <io.seniorzhai.circlegroupview.CircleGroupView
+        android:id="@+id/view2"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="16dp"
+        app:divider_size="0.5dp"
+        app:place_holder="@drawable/place_holder" />
+
+    <io.seniorzhai.circlegroupview.CircleGroupView
+        android:id="@+id/view3"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_margin="16dp"
+        app:divider_size="1dp" />
+
+    <io.seniorzhai.circlegroupview.CircleGroupView
+        android:id="@+id/view4"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_margin="16dp"
+        app:divider_size="0.5dp" />
+
+</LinearLayout>

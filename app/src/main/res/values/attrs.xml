@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="divider_size" format="dimension" />
+        <attr name="place_holder" format="reference" />
+    </declare-styleable>
+</resources>
