@@ -81,7 +81,6 @@ class CircleGroupView : View {
         mPaint.isFilterBitmap = false
         mPaint.xfermode = xfermode
 
-        //绘制形状
         drawCanvas.drawBitmap(maskBitmap!!, 0f, 0f, mPaint)
         bitmapReference = WeakReference(bitmap)
         mPaint.xfermode = null
@@ -143,17 +142,17 @@ class CircleGroupView : View {
     private fun getSize(index: Int): Size {
         return when (count) {
             2 -> {
-                Size(measuredWidth / 2, measuredHeight)
+                Size(measuredWidth / 2 - divider, measuredHeight)
             }
             3 -> {
                 if (index == 0) {
-                    Size(measuredWidth / 2, measuredHeight)
+                    Size(measuredWidth / 2 - divider, measuredHeight)
                 } else {
-                    Size(measuredWidth / 2, measuredHeight / 2)
+                    Size(measuredWidth / 2 - divider, measuredHeight / 2 - divider)
                 }
             }
             4 -> {
-                Size(measuredWidth / 2, measuredHeight / 2)
+                Size(measuredWidth / 2 - divider, measuredHeight / 2 - divider)
             }
             else -> {
                 Size(measuredWidth, measuredHeight)
