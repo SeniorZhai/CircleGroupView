@@ -9,9 +9,11 @@ import android.util.Size
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.request.target.Target
 import java.lang.ref.WeakReference
 
@@ -64,6 +66,7 @@ class CircleGroupView : View {
         }
     }
 
+
     private fun splice() {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val drawCanvas = Canvas(bitmap)
@@ -114,17 +117,31 @@ class CircleGroupView : View {
     private fun loadImage() {
         for (i in 0 until count) {
             val size = getSize(i)
-            Glide.with(this).asBitmap().apply(RequestOptions().centerCrop()).load(map.keyAt(i)).listener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
-                    return false
-                }
+            if (count == 3) {
+                Glide.with(this).asBitmap().apply(bitmapTransform(MultiTransformation(CenterCrop(), FanCrop(i, context)))).load(map.keyAt(i)).listener(object : RequestListener<Bitmap> {
+                    override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
+                        return false
+                    }
 
-                override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                    map.put(map.keyAt(i), resource)
-                    splice()
-                    return false
-                }
-            }).submit(size.width, size.height)
+                    override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                        map.put(map.keyAt(i), resource)
+                        splice()
+                        return false
+                    }
+                }).submit(size.width, size.height)
+            } else {
+                Glide.with(this).asBitmap().apply(bitmapTransform(CenterCrop())).load(map.keyAt(i)).listener(object : RequestListener<Bitmap> {
+                    override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                        map.put(map.keyAt(i), resource)
+                        splice()
+                        return false
+                    }
+                }).submit(size.width, size.height)
+            }
         }
     }
 
@@ -145,10 +162,10 @@ class CircleGroupView : View {
                 Size(measuredWidth / 2 - divider, measuredHeight)
             }
             3 -> {
-                if (index == 0) {
-                    Size(measuredWidth / 2 - divider, measuredHeight)
+                if (index == 3) {
+                    Size(measuredWidth, measuredHeight / 2)
                 } else {
-                    Size(measuredWidth / 2 - divider, measuredHeight / 2 - divider)
+                    Size(measuredWidth / 2, measuredHeight)
                 }
             }
             4 -> {
@@ -171,9 +188,9 @@ class CircleGroupView : View {
             }
             3 -> {
                 when (index) {
-                    0 -> Rect(0, 0, measuredWidth / 2 - divider, measuredHeight)
-                    1 -> Rect(measuredWidth / 2 + divider, 0, measuredWidth, measuredHeight / 2 - divider)
-                    else -> Rect(measuredWidth / 2 + divider, measuredHeight / 2 + divider, measuredWidth, measuredHeight)
+                    0 -> Rect(0, 0, measuredWidth / 2, measuredHeight)
+                    1 -> Rect(measuredWidth / 2, 0, measuredWidth, measuredHeight)
+                    else -> Rect(0, measuredHeight / 2, measuredWidth, measuredHeight)
                 }
             }
             4 -> {
